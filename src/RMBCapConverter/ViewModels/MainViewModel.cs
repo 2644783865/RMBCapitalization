@@ -17,7 +17,7 @@ namespace RMBCapConverter.ViewModels
 
         public MainViewModel()
         {
-            CharMapping = new ObservableCollection<KeyValuePair<string, string>>()
+            CharMapping = new ObservableCollection<KeyValuePair<string, string>>
             {
                 new KeyValuePair<string, string>("0","零"),
                 new KeyValuePair<string, string>("1","壹"),

@@ -3,8 +3,6 @@ using System.Linq;
 using Windows.Media.SpeechSynthesis;
 using Windows.System;
 using Windows.UI.Xaml;
-using RMBCapConverter.ViewModels;
-
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
@@ -15,12 +13,10 @@ namespace RMBCapConverter.Views
 {
     public sealed partial class MainPage : Page
     {
-        private MainViewModel ViewModel => DataContext as MainViewModel;
-
         public MainPage()
         {
             InitializeComponent();
-            synthesizer = new SpeechSynthesizer();
+            _synthesizer = new SpeechSynthesizer();
             CapitalizedRmb = string.Empty;
         }
 
@@ -34,7 +30,7 @@ namespace RMBCapConverter.Views
             }
         }
 
-        private SpeechSynthesizer synthesizer;
+        private readonly SpeechSynthesizer _synthesizer;
 
         private string _inputedNumbers;
         private string _capitalizedRmb;
@@ -68,7 +64,7 @@ namespace RMBCapConverter.Views
                         }
                     }
 
-                    // e.g. 01234... fuck it to 1234
+                    // e.g. 01234... format to 1234
                     if (value.StartsWith("0") && !value.Contains("."))
                     {
                         value = int.Parse(value).ToString();
@@ -273,11 +269,11 @@ namespace RMBCapConverter.Views
 
                         if (null != chsVoice)
                         {
-                            synthesizer.Voice = chsVoice;
+                            _synthesizer.Voice = chsVoice;
                         }
 
                         // Create a stream from the text. This will be played using a media element.
-                        SpeechSynthesisStream synthesisStream = await synthesizer.SynthesizeTextToStreamAsync(text);
+                        SpeechSynthesisStream synthesisStream = await _synthesizer.SynthesizeTextToStreamAsync(text);
 
                         // Set the source and start playing the synthesized audio stream.
                         media.AutoPlay = true;
